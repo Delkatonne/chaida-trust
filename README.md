@@ -62,7 +62,7 @@ reste allumé), ce qui impose deux contraintes à connaître avant de déployer 
 
 2. **Importer le projet sur Vercel** : sur vercel.com → *Add New Project* →
    sélectionner le repo `Delkatonne/chaida-trust`. Vercel détecte Flask
-   automatiquement grâce à `requirements.txt` et `app.py`.
+   automatiquement grâce à `requirements.txt` et `wsgi.py`.
 
 3. **Configurer les variables d'environnement** (Project Settings →
    Environment Variables) :
