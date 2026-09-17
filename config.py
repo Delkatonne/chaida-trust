@@ -21,5 +21,12 @@ class Config:
     KKIAPAY_SECRET = os.environ.get("KKIAPAY_SECRET", "")
     KKIAPAY_SANDBOX = os.environ.get("KKIAPAY_SANDBOX", "true").lower() == "true"
 
-    UPLOAD_FOLDER = os.path.join(basedir, "app", "static", "uploads")
+    # Sur Vercel, le système de fichiers du projet est en lecture seule —
+    # seul /tmp est inscriptible, et il n'est pas persistant ni servi publiquement.
+    # Les images uploadées depuis l'admin ne survivront donc pas en production
+    # tant qu'un stockage externe (Vercel Blob, Cloudinary...) n'est pas branché.
+    UPLOAD_FOLDER = os.environ.get(
+        "UPLOAD_FOLDER",
+        "/tmp/uploads" if os.environ.get("VERCEL") else os.path.join(basedir, "app", "static", "uploads"),
+    )
     MAX_CONTENT_LENGTH = 8 * 1024 * 1024  # 8 Mo max par upload

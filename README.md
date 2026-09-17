@@ -40,6 +40,53 @@ Back-office accessible sur `/admin/login`.
 - Messages de contact
 - Gestion des activités, produits, fournisseurs, clients
 
+## Déployer sur Vercel
+
+Vercel fait tourner Flask comme une fonction serverless (pas de serveur qui
+reste allumé), ce qui impose deux contraintes à connaître avant de déployer :
+
+- **Pas de SQLite** : le système de fichiers est en lecture seule en
+  production, donc la base `app.db` locale ne fonctionne pas. Il faut une
+  base PostgreSQL hébergée ailleurs (ex : [Neon](https://neon.tech), gratuit,
+  s'intègre directement à Vercel — ou Supabase).
+- **Pas d'upload de fichiers persistant** : les images uploadées depuis
+  l'admin (activités, produits) ne seront pas conservées en production tant
+  qu'un stockage externe (Vercel Blob, Cloudinary...) n'est pas branché. Pour
+  l'instant, mets les images directement dans `app/static/img/` avant de
+  déployer, ou attends qu'on ajoute le stockage externe.
+
+### Étapes
+
+1. **Créer la base Postgres** (ex. sur [neon.tech](https://neon.tech)) et
+   copier son `DATABASE_URL` (commence par `postgresql://...`).
+
+2. **Importer le projet sur Vercel** : sur vercel.com → *Add New Project* →
+   sélectionner le repo `Delkatonne/chaida-trust`. Vercel détecte Flask
+   automatiquement grâce à `requirements.txt` et `app.py`.
+
+3. **Configurer les variables d'environnement** (Project Settings →
+   Environment Variables) :
+   - `DATABASE_URL` → l'URL Postgres de l'étape 1
+   - `SECRET_KEY` → une longue chaîne aléatoire
+   - `KKIAPAY_PUBLIC_KEY`, `KKIAPAY_PRIVATE_KEY` → si déjà disponibles
+   - `KKIAPAY_SANDBOX` → `false` en production
+
+4. **Déployer** (automatique à chaque push sur `main`, ou bouton *Deploy*).
+
+5. **Créer les tables et l'admin dans la base de production** — Vercel
+   n'exécute pas `init_db.py` automatiquement. Depuis ta machine locale :
+   ```bash
+   # dans .env (local), mets temporairement le DATABASE_URL de production
+   python3 init_db.py
+   ```
+   Ça crée les tables, le compte admin et les 5 activités directement dans
+   la base Postgres de production. Ensuite remets ton `.env` local sur SQLite
+   si tu veux continuer à développer en local avec une base séparée.
+
+6. Le site est en ligne sur l'URL fournie par Vercel (ex.
+   `chaida-trust.vercel.app`). Un domaine personnalisé peut être ajouté dans
+   Project Settings → Domains.
+
 ## Ce qu'il reste à faire
 
 1. **Contenu réel** : remplacer les descriptions/images placeholder de chaque
