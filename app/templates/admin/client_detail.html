@@ -1,0 +1,42 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Fiche client{% endblock %}
+{% block content %}
+<h2 class="mb-4">{{ client.nom }}</h2>
+<p><strong>Téléphone :</strong> {{ client.telephone or "—" }}</p>
+<p><strong>Email :</strong> {{ client.email or "—" }}</p>
+
+<h4 class="mt-4">Réservations</h4>
+<table class="table bg-white">
+  <thead><tr><th>Référence</th><th>Activité</th><th>Statut</th><th>Date</th></tr></thead>
+  <tbody>
+    {% for r in reservations %}
+    <tr>
+      <td><a href="{{ url_for('admin.booking_detail', id=r.id) }}">{{ r.reference }}</a></td>
+      <td>{{ r.activite.nom }}</td>
+      <td><span class="badge bg-secondary">{{ r.statut }}</span></td>
+      <td>{{ r.cree_le.strftime("%d/%m/%Y") }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="4" class="text-muted">Aucune réservation.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h4 class="mt-4">Inscriptions formation</h4>
+<table class="table bg-white">
+  <thead><tr><th>Référence</th><th>Domaine</th><th>Statut</th><th>Date</th></tr></thead>
+  <tbody>
+    {% for i in inscriptions %}
+    <tr>
+      <td><a href="{{ url_for('admin.training_detail', id=i.id) }}">{{ i.reference }}</a></td>
+      <td>{{ i.domaine.nom }}</td>
+      <td><span class="badge bg-secondary">{{ i.statut }}</span></td>
+      <td>{{ i.cree_le.strftime("%d/%m/%Y") }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="4" class="text-muted">Aucune inscription.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+<a href="{{ url_for('admin.clients_list') }}" class="btn btn-outline-secondary">Retour</a>
+{% endblock %}

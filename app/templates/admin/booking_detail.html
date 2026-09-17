@@ -1,0 +1,28 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Réservation {{ reservation.reference }}{% endblock %}
+{% block content %}
+<h2 class="mb-4">Réservation {{ reservation.reference }}</h2>
+
+<div class="row mb-4">
+  <div class="col-md-6">
+    <p><strong>Client :</strong> {{ reservation.client.nom }}</p>
+    <p><strong>Téléphone :</strong> {{ reservation.indicatif_pays }} {{ reservation.telephone }}</p>
+    <p><strong>Email :</strong> {{ reservation.email or "—" }}</p>
+    <p><strong>Activité :</strong> {{ reservation.activite.nom }}</p>
+    <p><strong>Programme souhaité :</strong> {{ reservation.programme_souhaite or "—" }}</p>
+    <p><strong>Date / créneau souhaité :</strong> {{ reservation.date_souhaitee or "—" }}</p>
+    <p><strong>Message :</strong> {{ reservation.message or "—" }}</p>
+  </div>
+  <div class="col-md-6">
+    <form action="{{ url_for('admin.booking_update_status', id=reservation.id) }}" method="POST" class="d-flex gap-2">
+      <select name="statut" class="form-select">
+        {% for s in statuts %}
+        <option value="{{ s }}" {% if reservation.statut == s %}selected{% endif %}>{{ s }}</option>
+        {% endfor %}
+      </select>
+      <button class="btn btn-primary">Mettre à jour</button>
+    </form>
+  </div>
+</div>
+<a href="{{ url_for('admin.bookings_list') }}" class="btn btn-outline-secondary">Retour</a>
+{% endblock %}

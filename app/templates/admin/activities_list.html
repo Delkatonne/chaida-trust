@@ -1,0 +1,29 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Activités{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Activités</h2>
+  <a href="{{ url_for('admin.activity_new') }}" class="btn btn-primary">+ Nouvelle activité</a>
+</div>
+<table class="table bg-white">
+  <thead><tr><th>Nom</th><th>Ordre</th><th>Visible</th><th>Produits</th><th></th></tr></thead>
+  <tbody>
+    {% for a in activites %}
+    <tr>
+      <td>{{ a.nom }}</td>
+      <td>{{ a.ordre }}</td>
+      <td>{% if a.visible %}<span class="badge bg-success">Oui</span>{% else %}<span class="badge bg-secondary">Non</span>{% endif %}</td>
+      <td>{{ a.produits.count() }}</td>
+      <td class="text-end">
+        <a href="{{ url_for('admin.activity_edit', id=a.id) }}" class="btn btn-sm btn-outline-secondary">Modifier</a>
+        <form action="{{ url_for('admin.activity_delete', id=a.id) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer cette activité ?');">
+          <button class="btn btn-sm btn-outline-danger">Suppr.</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="5" class="text-muted">Aucune activité.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

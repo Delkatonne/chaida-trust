@@ -1,0 +1,30 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Messages contact{% endblock %}
+{% block content %}
+<h2 class="mb-4">Messages du formulaire de contact</h2>
+
+<table class="table bg-white">
+  <thead><tr><th>Nom</th><th>Email / Tél.</th><th>Motif</th><th>Message</th><th>Statut</th><th>Date</th><th></th></tr></thead>
+  <tbody>
+    {% for m in messages %}
+    <tr>
+      <td>{{ m.nom }}</td>
+      <td>{{ m.email }}<br><small>{{ m.indicatif_pays }} {{ m.telephone or "" }}</small></td>
+      <td>{{ m.motif }}</td>
+      <td style="max-width:300px;">{{ m.message }}</td>
+      <td><span class="badge bg-{{ 'success' if m.statut == 'traite' else 'warning' }}">{{ m.statut }}</span></td>
+      <td>{{ m.cree_le.strftime("%d/%m/%Y") }}</td>
+      <td>
+        {% if m.statut == 'nouveau' %}
+        <form action="{{ url_for('admin.message_mark_treated', id=m.id) }}" method="POST">
+          <button class="btn btn-sm btn-outline-success">Marquer traité</button>
+        </form>
+        {% endif %}
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="7" class="text-muted">Aucun message.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

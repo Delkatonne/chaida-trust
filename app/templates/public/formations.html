@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Formations — Chaïda Trust{% endblock %}
+
+{% block content %}
+<h1 class="mb-3 text-center">Nos formations</h1>
+<p class="text-center text-muted mb-5">
+  Développez vos compétences dans nos différents domaines d'expertise. Choisissez un domaine et inscrivez-vous.
+</p>
+
+<div class="row g-4 mb-5">
+  {% for d in domaines %}
+  <div class="col-md-4">
+    <div class="card h-100 shadow-sm border-0">
+      <div class="card-body">
+        <h5 class="card-title">{{ d.nom }}</h5>
+        <p class="card-text">{{ d.description_courte }}</p>
+      </div>
+    </div>
+  </div>
+  {% else %}
+  <p class="text-muted text-center">Aucun domaine de formation publié pour l'instant.</p>
+  {% endfor %}
+</div>
+
+<div class="card border-0 shadow-sm">
+  <div class="card-body p-4">
+    <h4 class="mb-3">Formulaire d'inscription</h4>
+
+    <form method="POST" class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">Nom complet *</label>
+        <input type="text" name="nom" class="form-control" required>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Indicatif *</label>
+        <select name="indicatif_pays" class="form-select">
+          {% for code, label in indicatifs %}
+          <option value="{{ code }}">{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Téléphone *</label>
+        <input type="tel" name="telephone" class="form-control" required>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Email</label>
+        <input type="email" name="email" class="form-control">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Domaine de formation *</label>
+        <select name="activite_id" class="form-select" required>
+          <option value="">— Choisir un domaine —</option>
+          {% for d in domaines %}
+          <option value="{{ d.id }}">{{ d.nom }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Niveau (optionnel)</label>
+        <select name="niveau" class="form-select">
+          <option value="">—</option>
+          <option value="debutant">Débutant</option>
+          <option value="intermediaire">Intermédiaire</option>
+          <option value="avance">Avancé</option>
+        </select>
+      </div>
+      <div class="col-12">
+        <label class="form-label">Message / motivation (optionnel)</label>
+        <textarea name="motivation" class="form-control" rows="3"></textarea>
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-lg" style="background:#7a2447;color:white;">M'inscrire</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

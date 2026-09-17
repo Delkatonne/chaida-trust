@@ -1,0 +1,8 @@
+body {
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+.card-img-top {
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}

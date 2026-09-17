@@ -1,0 +1,21 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Clients{% endblock %}
+{% block content %}
+<h2 class="mb-4">Clients</h2>
+<table class="table bg-white">
+  <thead><tr><th>Nom</th><th>Téléphone</th><th>Email</th><th>Inscrit le</th><th></th></tr></thead>
+  <tbody>
+    {% for c in clients %}
+    <tr>
+      <td>{{ c.nom }}</td>
+      <td>{{ c.telephone }}</td>
+      <td>{{ c.email }}</td>
+      <td>{{ c.cree_le.strftime("%d/%m/%Y") }}</td>
+      <td><a href="{{ url_for('admin.client_detail', id=c.id) }}" class="btn btn-sm btn-outline-secondary">Voir</a></td>
+    </tr>
+    {% else %}
+    <tr><td colspan="5" class="text-muted">Aucun client.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

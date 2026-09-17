@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Inscription envoyée{% endblock %}
+{% block content %}
+<div class="text-center">
+  <h1 class="mb-3" style="color:#7a2447;">✔ Votre inscription a bien été envoyée</h1>
+  <p>Référence : <strong>{{ inscription.reference }}</strong></p>
+  <p>Domaine de formation : <strong>{{ inscription.domaine.nom }}</strong></p>
+  <p class="text-muted">Nous vous recontacterons par email ou téléphone pour confirmer votre inscription.</p>
+  <a href="{{ url_for('public.home') }}" class="btn mt-3" style="background:#7a2447;color:white;">Retour à l'accueil</a>
+</div>
+{% endblock %}

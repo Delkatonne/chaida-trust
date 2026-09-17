@@ -1,0 +1,55 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Tableau de bord{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Tableau de bord</h2>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-2"><div class="card p-3 text-center"><h3>{{ stats.reservations_nouvelles }}</h3><small class="text-muted">Nouvelles réservations</small></div></div>
+  <div class="col-md-2"><div class="card p-3 text-center"><h3>{{ stats.inscriptions_nouvelles }}</h3><small class="text-muted">Nouvelles inscriptions</small></div></div>
+  <div class="col-md-2"><div class="card p-3 text-center"><h3>{{ stats.messages_nouveaux }}</h3><small class="text-muted">Messages non lus</small></div></div>
+  <div class="col-md-2"><div class="card p-3 text-center"><h3>{{ stats.produits_total }}</h3><small class="text-muted">Produits</small></div></div>
+  <div class="col-md-2"><div class="card p-3 text-center"><h3>{{ stats.clients_total }}</h3><small class="text-muted">Clients</small></div></div>
+  <div class="col-md-2"><div class="card p-3 text-center"><h3>{{ stats.fournisseurs_total }}</h3><small class="text-muted">Fournisseurs</small></div></div>
+</div>
+
+<div class="row g-4">
+  <div class="col-md-4">
+    <h5>Dernières réservations</h5>
+    <table class="table bg-white table-sm">
+      <tbody>
+        {% for r in reservations %}
+        <tr><td><a href="{{ url_for('admin.booking_detail', id=r.id) }}">{{ r.reference }}</a></td><td>{{ r.activite.nom }}</td><td><span class="badge bg-secondary">{{ r.statut }}</span></td></tr>
+        {% else %}
+        <tr><td class="text-muted">Aucune réservation.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="col-md-4">
+    <h5>Dernières inscriptions formation</h5>
+    <table class="table bg-white table-sm">
+      <tbody>
+        {% for i in inscriptions %}
+        <tr><td><a href="{{ url_for('admin.training_detail', id=i.id) }}">{{ i.reference }}</a></td><td>{{ i.domaine.nom }}</td><td><span class="badge bg-secondary">{{ i.statut }}</span></td></tr>
+        {% else %}
+        <tr><td class="text-muted">Aucune inscription.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="col-md-4">
+    <h5>Derniers messages</h5>
+    <table class="table bg-white table-sm">
+      <tbody>
+        {% for m in messages %}
+        <tr><td>{{ m.nom }}</td><td>{{ m.motif }}</td><td><span class="badge bg-secondary">{{ m.statut }}</span></td></tr>
+        {% else %}
+        <tr><td class="text-muted">Aucun message.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <a href="{{ url_for('admin.messages_list') }}" class="btn btn-sm btn-outline-secondary">Voir tous les messages</a>
+  </div>
+</div>
+{% endblock %}

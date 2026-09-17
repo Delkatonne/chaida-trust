@@ -1,0 +1,37 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}{{ "Modifier" if activite else "Nouvelle" }} activité{% endblock %}
+{% block content %}
+<h2 class="mb-4">{{ "Modifier" if activite else "Nouvelle" }} activité</h2>
+<form method="POST" enctype="multipart/form-data" style="max-width:600px;">
+  <div class="mb-3">
+    <label class="form-label">Nom *</label>
+    <input type="text" name="nom" class="form-control" value="{{ activite.nom if activite else '' }}" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Description courte</label>
+    <input type="text" name="description_courte" class="form-control" value="{{ activite.description_courte if activite else '' }}">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Description longue</label>
+    <textarea name="description_longue" class="form-control" rows="4">{{ activite.description_longue if activite else '' }}</textarea>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Image</label>
+    <input type="file" name="image" class="form-control">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Ordre d'affichage</label>
+    <input type="number" name="ordre" class="form-control" value="{{ activite.ordre if activite else 0 }}">
+  </div>
+  <div class="form-check mb-3">
+    <input type="checkbox" name="visible" class="form-check-input" id="visible" {% if not activite or activite.visible %}checked{% endif %}>
+    <label class="form-check-label" for="visible">Visible sur le site</label>
+  </div>
+  <div class="form-check mb-3">
+    <input type="checkbox" name="propose_formation" class="form-check-input" id="propose_formation" {% if activite and activite.propose_formation %}checked{% endif %}>
+    <label class="form-check-label" for="propose_formation">Apparaît dans la page Formations</label>
+  </div>
+  <button type="submit" class="btn btn-primary">Enregistrer</button>
+  <a href="{{ url_for('admin.activities_list') }}" class="btn btn-outline-secondary">Annuler</a>
+</form>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Fournisseurs{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Fournisseurs</h2>
+  <a href="{{ url_for('admin.supplier_new') }}" class="btn btn-primary">+ Nouveau fournisseur</a>
+</div>
+<table class="table bg-white">
+  <thead><tr><th>Nom</th><th>Contact</th><th>Téléphone</th><th>Actif</th><th></th></tr></thead>
+  <tbody>
+    {% for f in fournisseurs %}
+    <tr>
+      <td>{{ f.nom }}</td>
+      <td>{{ f.contact }}</td>
+      <td>{{ f.telephone }}</td>
+      <td>{% if f.actif %}<span class="badge bg-success">Oui</span>{% else %}<span class="badge bg-secondary">Non</span>{% endif %}</td>
+      <td class="text-end">
+        <a href="{{ url_for('admin.supplier_edit', id=f.id) }}" class="btn btn-sm btn-outline-secondary">Modifier</a>
+        <form action="{{ url_for('admin.supplier_delete', id=f.id) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer ce fournisseur ?');">
+          <button class="btn btn-sm btn-outline-danger">Suppr.</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="5" class="text-muted">Aucun fournisseur.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

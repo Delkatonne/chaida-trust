@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}{{ activite.nom }} — Chaïda Trust{% endblock %}
+
+{% block content %}
+<div class="row mb-5">
+  {% if activite.image %}
+  <div class="col-md-5">
+    <img src="{{ url_for('static', filename=activite.image) }}" class="img-fluid rounded" alt="{{ activite.nom }}">
+  </div>
+  {% endif %}
+  <div class="col-md-{{ 7 if activite.image else 12 }}">
+    <h1>{{ activite.nom }}</h1>
+    <p class="lead">{{ activite.description_courte }}</p>
+    <p>{{ activite.description_longue }}</p>
+  </div>
+</div>
+
+{% if produits %}
+<h4 class="mb-3">Ce que nous proposons</h4>
+<div class="row g-3 mb-5">
+  {% for p in produits %}
+  <div class="col-6 col-md-3">
+    <div class="card h-100 shadow-sm">
+      {% if p.image %}
+      <img src="{{ url_for('static', filename=p.image) }}" class="card-img-top" alt="{{ p.nom }}" style="height:140px; object-fit:cover;">
+      {% endif %}
+      <div class="card-body">
+        <h6 class="card-title">{{ p.nom }}</h6>
+        {% if p.prix %}<p class="text-muted mb-0">{{ "%.0f"|format(p.prix) }} FCFA</p>{% endif %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<div class="card border-0 shadow-sm">
+  <div class="card-body p-4">
+    <h4 class="mb-3">Réserver un programme ou un rendez-vous</h4>
+    <p class="text-muted">Remplissez ce formulaire, nous vous recontactons par email ou téléphone pour confirmer.</p>
+
+    <form method="POST" class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">Nom complet *</label>
+        <input type="text" name="nom" class="form-control" required>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Indicatif *</label>
+        <select name="indicatif_pays" class="form-select">
+          {% for code, label in indicatifs %}
+          <option value="{{ code }}">{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Téléphone *</label>
+        <input type="tel" name="telephone" class="form-control" required>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Email</label>
+        <input type="email" name="email" class="form-control">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Programme souhaité</label>
+        <input type="text" name="programme_souhaite" class="form-control" placeholder="Ex : consultation, soin, prestation...">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Date / créneau souhaité</label>
+        <input type="text" name="date_souhaitee" class="form-control" placeholder="Ex : semaine prochaine, samedi matin...">
+      </div>
+      <div class="col-12">
+        <label class="form-label">Message (optionnel)</label>
+        <textarea name="message" class="form-control" rows="3"></textarea>
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-lg" style="background:#7a2447;color:white;">Envoyer ma demande</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

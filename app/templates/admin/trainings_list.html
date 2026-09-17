@@ -1,0 +1,30 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Inscriptions formation{% endblock %}
+{% block content %}
+<h2 class="mb-4">Inscriptions aux formations</h2>
+
+<div class="mb-3">
+  <a href="{{ url_for('admin.trainings_list') }}" class="btn btn-sm {{ 'btn-dark' if not statut_filtre else 'btn-outline-dark' }}">Toutes</a>
+  {% for s in statuts %}
+  <a href="{{ url_for('admin.trainings_list', statut=s) }}" class="btn btn-sm {{ 'btn-dark' if statut_filtre == s else 'btn-outline-dark' }}">{{ s }}</a>
+  {% endfor %}
+</div>
+
+<table class="table bg-white">
+  <thead><tr><th>Référence</th><th>Client</th><th>Domaine</th><th>Téléphone</th><th>Statut</th><th>Date</th></tr></thead>
+  <tbody>
+    {% for i in inscriptions %}
+    <tr>
+      <td><a href="{{ url_for('admin.training_detail', id=i.id) }}">{{ i.reference }}</a></td>
+      <td>{{ i.client.nom }}</td>
+      <td>{{ i.domaine.nom }}</td>
+      <td>{{ i.indicatif_pays }} {{ i.telephone }}</td>
+      <td><span class="badge bg-secondary">{{ i.statut }}</span></td>
+      <td>{{ i.cree_le.strftime("%d/%m/%Y %H:%M") }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="6" class="text-muted">Aucune inscription.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Demande envoyée{% endblock %}
+{% block content %}
+<div class="text-center">
+  <h1 class="mb-3" style="color:#7a2447;">✔ Votre demande a bien été envoyée</h1>
+  <p>Référence : <strong>{{ reservation.reference }}</strong></p>
+  <p>Activité concernée : <strong>{{ reservation.activite.nom }}</strong></p>
+  <p class="text-muted">Nous vous recontacterons par email ou téléphone pour confirmer votre rendez-vous.</p>
+  <a href="{{ url_for('public.home') }}" class="btn mt-3" style="background:#7a2447;color:white;">Retour à l'accueil</a>
+</div>
+{% endblock %}

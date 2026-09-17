@@ -1,0 +1,27 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Inscription {{ inscription.reference }}{% endblock %}
+{% block content %}
+<h2 class="mb-4">Inscription {{ inscription.reference }}</h2>
+
+<div class="row mb-4">
+  <div class="col-md-6">
+    <p><strong>Client :</strong> {{ inscription.client.nom }}</p>
+    <p><strong>Téléphone :</strong> {{ inscription.indicatif_pays }} {{ inscription.telephone }}</p>
+    <p><strong>Email :</strong> {{ inscription.email or "—" }}</p>
+    <p><strong>Domaine :</strong> {{ inscription.domaine.nom }}</p>
+    <p><strong>Niveau :</strong> {{ inscription.niveau or "—" }}</p>
+    <p><strong>Motivation :</strong> {{ inscription.motivation or "—" }}</p>
+  </div>
+  <div class="col-md-6">
+    <form action="{{ url_for('admin.training_update_status', id=inscription.id) }}" method="POST" class="d-flex gap-2">
+      <select name="statut" class="form-select">
+        {% for s in statuts %}
+        <option value="{{ s }}" {% if inscription.statut == s %}selected{% endif %}>{{ s }}</option>
+        {% endfor %}
+      </select>
+      <button class="btn btn-primary">Mettre à jour</button>
+    </form>
+  </div>
+</div>
+<a href="{{ url_for('admin.trainings_list') }}" class="btn btn-outline-secondary">Retour</a>
+{% endblock %}
