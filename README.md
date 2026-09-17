@@ -68,22 +68,19 @@ reste allumé), ce qui impose deux contraintes à connaître avant de déployer 
    Environment Variables) :
    - `DATABASE_URL` → l'URL Postgres de l'étape 1
    - `SECRET_KEY` → une longue chaîne aléatoire
+   - `ADMIN_EMAIL` / `ADMIN_PASSWORD` → identifiants du compte admin créé
+     automatiquement au premier démarrage (sinon la valeur par défaut
+     `admin@chaidatrust.com` / `changez-ce-mot-de-passe` est utilisée —
+     **change ce mot de passe dès la première connexion** via *Mon compte*
+     dans le back-office, ou fixe directement un mot de passe fort ici)
    - `KKIAPAY_PUBLIC_KEY`, `KKIAPAY_PRIVATE_KEY` → si déjà disponibles
    - `KKIAPAY_SANDBOX` → `false` en production
 
 4. **Déployer** (automatique à chaque push sur `main`, ou bouton *Deploy*).
+   Les tables et les 5 activités de départ sont créées automatiquement au
+   premier chargement du site — rien à lancer en local.
 
-5. **Créer les tables et l'admin dans la base de production** — Vercel
-   n'exécute pas `init_db.py` automatiquement. Depuis ta machine locale :
-   ```bash
-   # dans .env (local), mets temporairement le DATABASE_URL de production
-   python3 init_db.py
-   ```
-   Ça crée les tables, le compte admin et les 5 activités directement dans
-   la base Postgres de production. Ensuite remets ton `.env` local sur SQLite
-   si tu veux continuer à développer en local avec une base séparée.
-
-6. Le site est en ligne sur l'URL fournie par Vercel (ex.
+5. Le site est en ligne sur l'URL fournie par Vercel (ex.
    `chaida-trust.vercel.app`). Un domaine personnalisé peut être ajouté dans
    Project Settings → Domains.
 

@@ -1,0 +1,21 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Mon compte{% endblock %}
+{% block content %}
+<h2 class="mb-4">Changer mon mot de passe</h2>
+
+<form method="POST" style="max-width:400px;">
+  <div class="mb-3">
+    <label class="form-label">Mot de passe actuel</label>
+    <input type="password" name="mot_de_passe_actuel" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Nouveau mot de passe (8 caractères min.)</label>
+    <input type="password" name="nouveau_mot_de_passe" class="form-control" required minlength="8">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Confirmer le nouveau mot de passe</label>
+    <input type="password" name="confirmation" class="form-control" required minlength="8">
+  </div>
+  <button type="submit" class="btn btn-primary">Mettre à jour</button>
+</form>
+{% endblock %}
