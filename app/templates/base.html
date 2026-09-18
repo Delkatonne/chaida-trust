@@ -4,59 +4,109 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{% block title %}Chaïda Trust{% endblock %}</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          display: ['Fraunces', 'serif'],
+          sans: ['Work Sans', 'sans-serif'],
+        },
+        colors: {
+          forest: { DEFAULT: '#2F4A3C', 50: '#EEF2EF', 100: '#DCE5DF', 700: '#2F4A3C', 800: '#233729' },
+          plum:   { DEFAULT: '#6E2140', 50: '#F7ECF1', 600: '#6E2140', 700: '#551933' },
+          gold:   { DEFAULT: '#C8963E', 100: '#F5E9D3', 500: '#C8963E', 600: '#AD7C2C' },
+          ivory:  '#F5F2EA',
+          ink:    '#241C1F',
+        },
+      }
+    }
+  }
+</script>
 <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
 </head>
-<body>
+<body class="font-sans text-ink bg-white antialiased">
 
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background:#7a2447;">
-  <div class="container">
-    <a class="navbar-brand fw-bold" href="{{ url_for('public.home') }}">Chaïda Trust</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.home') }}">Accueil</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.services') }}">Nos activités</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.formations') }}">Formations</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.contact') }}">Contact</a></li>
+<nav class="sticky top-0 z-50 bg-forest text-white">
+  <div class="max-w-6xl mx-auto px-5">
+    <div class="flex items-center justify-between h-16">
+      <a href="{{ url_for('public.home') }}" class="font-display text-xl font-semibold tracking-tight">Chaïda Trust</a>
+
+      <ul class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <li><a href="{{ url_for('public.home') }}" class="hover:text-gold-500 transition-colors">Accueil</a></li>
+        <li><a href="{{ url_for('public.services') }}" class="hover:text-gold-500 transition-colors">Nos activités</a></li>
+        <li><a href="{{ url_for('public.formations') }}" class="hover:text-gold-500 transition-colors">Formations</a></li>
+        <li><a href="{{ url_for('public.contact') }}" class="hover:text-gold-500 transition-colors">Contact</a></li>
       </ul>
+
+      <button id="nav-toggle" class="md:hidden p-2" aria-label="Ouvrir le menu">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
     </div>
+
+    <ul id="nav-menu" class="hidden md:hidden pb-4 space-y-2 text-sm font-medium">
+      <li><a href="{{ url_for('public.home') }}" class="block py-1 hover:text-gold-500">Accueil</a></li>
+      <li><a href="{{ url_for('public.services') }}" class="block py-1 hover:text-gold-500">Nos activités</a></li>
+      <li><a href="{{ url_for('public.formations') }}" class="block py-1 hover:text-gold-500">Formations</a></li>
+      <li><a href="{{ url_for('public.contact') }}" class="block py-1 hover:text-gold-500">Contact</a></li>
+    </ul>
   </div>
 </nav>
 
-<div class="container mt-3">
+<div class="max-w-6xl mx-auto px-5 mt-4">
   {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
       {% for category, message in messages %}
-        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-          {{ message }}
-          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        {% set styles = {
+          'success': 'bg-forest-50 text-forest-800 border-forest-100',
+          'danger':  'bg-plum-50 text-plum-700 border-plum-50',
+          'warning': 'bg-gold-100 text-gold-600 border-gold-100',
+          'info':    'bg-ivory text-ink border-ivory'
+        } %}
+        <div class="flex items-start justify-between gap-4 border rounded-lg px-4 py-3 mb-3 text-sm {{ styles.get(category, styles['info']) }}">
+          <span>{{ message }}</span>
         </div>
       {% endfor %}
     {% endif %}
   {% endwith %}
 </div>
 
-<main class="container my-4">
+<main>
   {% block content %}{% endblock %}
 </main>
 
-<footer class="text-light py-4 mt-5" style="background:#2c1120;">
-  <div class="container text-center">
-    <p class="mb-1 fw-bold">Chaïda Trust</p>
-    <p class="mb-2 small">Phytothérapie & cosmétologie · Création de mode · Esthétique · Marketing digital · Formations</p>
-    <div class="d-flex justify-content-center gap-3">
-      <a href="#" class="text-light text-decoration-none">Facebook</a>
-      <a href="#" class="text-light text-decoration-none">Instagram</a>
-      <a href="#" class="text-light text-decoration-none">TikTok</a>
+<footer class="bg-ink text-white/80 mt-16">
+  <div class="max-w-6xl mx-auto px-5 py-10 text-center">
+    <p class="font-display text-lg text-white mb-1">Chaïda Trust</p>
+    <p class="text-sm mb-4">Phytothérapie & cosmétologie · Création de mode · Esthétique · Marketing digital · Formations</p>
+    <div class="flex justify-center gap-6 text-sm mb-4">
+      <a href="#" class="hover:text-gold-500 transition-colors">Facebook</a>
+      <a href="#" class="hover:text-gold-500 transition-colors">Instagram</a>
+      <a href="#" class="hover:text-gold-500 transition-colors">TikTok</a>
     </div>
-    <p class="mt-2 mb-0 small">&copy; 2026 Chaïda Trust — Tous droits réservés.</p>
+    <p class="text-xs text-white/50">&copy; 2026 Chaïda Trust — Tous droits réservés.</p>
   </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<a href="https://wa.me/2250586131150" target="_blank" rel="noopener"
+   aria-label="Discuter sur WhatsApp"
+   class="fixed bottom-5 right-5 z-50 flex items-center justify-center w-14 h-14 rounded-full bg-[#25D366] text-white shadow-lg hover:scale-105 transition-transform">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="w-8 h-8" fill="currentColor">
+    <path d="M16.001 3C9.373 3 4 8.373 4 15.001c0 2.386.63 4.62 1.727 6.555L4 29l7.627-1.688A11.94 11.94 0 0 0 16.001 27C22.63 27 28 21.63 28 15.001 28 8.373 22.63 3 16.001 3zm0 21.818a9.77 9.77 0 0 1-4.98-1.363l-.357-.213-3.69.817.79-3.594-.234-.37A9.79 9.79 0 0 1 6.182 15c0-5.415 4.404-9.818 9.819-9.818 5.414 0 9.818 4.403 9.818 9.818 0 5.415-4.404 9.818-9.818 9.818zm5.383-7.354c-.294-.147-1.741-.859-2.011-.957-.27-.098-.467-.147-.663.147-.196.294-.761.957-.933 1.153-.172.196-.343.221-.637.074-.294-.147-1.242-.458-2.366-1.462-.874-.78-1.464-1.744-1.636-2.038-.172-.294-.018-.453.129-.6.133-.132.294-.343.441-.515.147-.172.196-.294.294-.49.098-.196.049-.368-.024-.515-.074-.147-.663-1.6-.909-2.19-.24-.575-.484-.497-.663-.506-.172-.008-.368-.01-.564-.01-.196 0-.515.074-.784.368-.27.294-1.03 1.007-1.03 2.456s1.055 2.848 1.202 3.044c.147.196 2.077 3.172 5.032 4.448.703.303 1.251.484 1.679.62.706.224 1.348.192 1.856.117.566-.084 1.741-.712 1.986-1.4.245-.688.245-1.278.172-1.4-.074-.123-.27-.196-.564-.343z"/>
+  </svg>
+</a>
+
+<script>
+  document.getElementById('nav-toggle')?.addEventListener('click', function () {
+    document.getElementById('nav-menu')?.classList.toggle('hidden');
+  });
+</script>
 {% block scripts %}{% endblock %}
 </body>
 </html>

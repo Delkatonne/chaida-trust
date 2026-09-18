@@ -2,59 +2,80 @@
 {% block title %}Chaïda Trust — Accueil{% endblock %}
 
 {% block content %}
-<div class="p-5 mb-5 rounded-3 text-center text-white" style="background:linear-gradient(135deg,#7a2447,#a83e6b);">
-  <h1 class="display-5 fw-bold">Chaïda Trust</h1>
-  <p class="col-lg-8 mx-auto fs-5">
-    Une entreprise multi-domaines dédiée à votre bien-être, votre style et votre développement :
-    phytothérapie, cosmétologie, mode, esthétique, marketing digital et formation.
-  </p>
-  <a href="{{ url_for('public.services') }}" class="btn btn-light btn-lg mt-2">Découvrir nos activités</a>
-</div>
-
-<div class="row mb-5">
-  <div class="col-md-6">
-    <h2>Pourquoi choisir Chaïda Trust ?</h2>
-    <p>
-      Chez Chaïda Trust, nous combinons expertise et proximité pour vous accompagner dans plusieurs
-      domaines à la fois : votre santé naturelle, votre image, votre présence en ligne et vos
-      compétences. Un accompagnement personnalisé, des professionnels engagés et un service pensé
-      pour répondre à vos besoins réels.
-    </p>
-    <ul>
-      <li>Une équipe pluridisciplinaire réunie sous une même bannière</li>
-      <li>Des services adaptés à chaque client, chaque projet</li>
-      <li>Un accompagnement de la prise de rendez-vous jusqu'au suivi</li>
-    </ul>
-  </div>
-  <div class="col-md-6">
-    <h2>Notre vision</h2>
-    <p>
-      Devenir une référence en Afrique de l'Ouest dans l'accompagnement global — bien-être, image
-      et compétences — en rendant accessibles des services de qualité, ancrés dans nos savoirs
-      locaux et ouverts aux exigences modernes.
-    </p>
-  </div>
-</div>
-
-<h2 class="mb-3 text-center">Nos domaines d'activité</h2>
-<div class="row g-4">
-  {% for act in activites %}
-  <div class="col-md-4">
-    <div class="card h-100 shadow-sm border-0">
-      {% if act.image %}
-      <img src="{{ url_for('static', filename=act.image) }}" class="card-img-top" alt="{{ act.nom }}" style="height:180px; object-fit:cover;">
-      {% endif %}
-      <div class="card-body">
-        <h5 class="card-title">{{ act.nom }}</h5>
-        <p class="card-text">{{ act.description_courte }}</p>
-      </div>
-      <div class="card-footer bg-white border-0">
-        <a href="{{ url_for('public.activity_detail', slug=act.slug) }}" class="btn btn-sm" style="background:#7a2447;color:white;">Découvrir</a>
-      </div>
+<section class="bg-forest text-white">
+  <div class="max-w-6xl mx-auto px-5 py-20 md:py-28 grid md:grid-cols-5 gap-10 items-center">
+    <div class="md:col-span-3">
+      <span class="inline-block text-xs font-semibold tracking-widest uppercase text-gold-500 mb-4">Bien-être · Style · Compétences</span>
+      <h1 class="font-display text-4xl md:text-6xl font-semibold leading-tight mb-6">
+        Chaïda Trust
+      </h1>
+      <p class="text-lg text-white/85 max-w-xl mb-8">
+        Une entreprise multi-domaines dédiée à votre bien-être, votre style et votre
+        développement : phytothérapie, cosmétologie, mode, esthétique, marketing
+        digital et formation.
+      </p>
+      <a href="{{ url_for('public.services') }}"
+         class="inline-block px-8 py-3 rounded-full bg-gold-500 text-ink font-medium hover:bg-gold-600 transition-colors">
+        Découvrir nos activités
+      </a>
+    </div>
+    <div class="md:col-span-2 hidden md:block">
+      <svg viewBox="0 0 200 200" class="w-full h-auto text-gold-500/30">
+        <circle cx="100" cy="100" r="90" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        <circle cx="100" cy="100" r="65" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M100 20 C130 60, 130 140, 100 180 C70 140, 70 60, 100 20Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
     </div>
   </div>
-  {% else %}
-  <p class="text-muted text-center">Aucune activité publiée pour l'instant.</p>
-  {% endfor %}
-</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-5 py-16 grid md:grid-cols-2 gap-12">
+  <div>
+    <h2 class="font-display text-2xl md:text-3xl text-forest-800 mb-4">Pourquoi choisir Chaïda Trust ?</h2>
+    <p class="text-ink/75 leading-relaxed mb-4">
+      Chez Chaïda Trust, nous combinons expertise et proximité pour vous accompagner dans
+      plusieurs domaines à la fois : votre santé naturelle, votre image, votre présence en
+      ligne et vos compétences. Un accompagnement personnalisé, des professionnels engagés
+      et un service pensé pour répondre à vos besoins réels.
+    </p>
+    <ul class="space-y-2 text-ink/75">
+      <li class="flex gap-2"><span class="text-gold-600">✦</span> Une équipe pluridisciplinaire réunie sous une même bannière</li>
+      <li class="flex gap-2"><span class="text-gold-600">✦</span> Des services adaptés à chaque client, chaque projet</li>
+      <li class="flex gap-2"><span class="text-gold-600">✦</span> Un accompagnement de la prise de rendez-vous jusqu'au suivi</li>
+    </ul>
+  </div>
+  <div>
+    <h2 class="font-display text-2xl md:text-3xl text-forest-800 mb-4">Notre vision</h2>
+    <p class="text-ink/75 leading-relaxed">
+      Devenir une référence en Afrique de l'Ouest dans l'accompagnement global — bien-être,
+      image et compétences — en rendant accessibles des services de qualité, ancrés dans
+      nos savoirs locaux et ouverts aux exigences modernes.
+    </p>
+  </div>
+</section>
+
+<section class="bg-ivory py-16">
+  <div class="max-w-6xl mx-auto px-5">
+    <h2 class="font-display text-2xl md:text-3xl text-forest-800 text-center mb-10">Nos domaines d'activité</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      {% for act in activites %}
+      <div class="bg-white rounded-2xl overflow-hidden shadow-sm flex flex-col">
+        {% if act.image %}
+        <img src="{{ url_for('static', filename=act.image) }}" alt="{{ act.nom }}" class="w-full h-44 object-cover">
+        {% endif %}
+        <div class="p-6 flex flex-col flex-grow">
+          <h5 class="font-display text-lg text-forest-800 mb-2">{{ act.nom }}</h5>
+          <p class="text-sm text-ink/70 mb-4 flex-grow">{{ act.description_courte }}</p>
+          <a href="{{ url_for('public.activity_detail', slug=act.slug) }}"
+             class="inline-block text-sm font-medium text-plum-600 hover:text-plum-700">
+            Découvrir →
+          </a>
+        </div>
+      </div>
+      {% else %}
+      <p class="text-ink/60 text-center col-span-3">Aucune activité publiée pour l'instant.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
 {% endblock %}

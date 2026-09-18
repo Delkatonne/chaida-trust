@@ -2,49 +2,60 @@
 {% block title %}Contact — Chaïda Trust{% endblock %}
 
 {% block content %}
-<h1 class="mb-4 text-center">Contactez-nous</h1>
+<section class="bg-ivory py-14">
+  <div class="max-w-6xl mx-auto px-5 text-center">
+    <h1 class="font-display text-3xl md:text-4xl text-forest-800">Contactez-nous</h1>
+  </div>
+</section>
 
-<div class="row g-5">
-  <div class="col-md-5">
-    <h5>Nos coordonnées</h5>
-    <p><strong>Email :</strong> contact@chaidatrust.com</p>
-    <p><strong>Téléphone :</strong> +229 00 00 00 00</p>
-    <p><strong>Adresse :</strong> Cotonou, Bénin</p>
+<section class="max-w-6xl mx-auto px-5 py-14 grid md:grid-cols-5 gap-12">
+  <div class="md:col-span-2">
+    <h5 class="font-display text-lg text-forest-800 mb-4">Nos coordonnées</h5>
+    <p class="text-ink/75 mb-2"><strong>Email :</strong> contact@chaidatrust.com</p>
+    <p class="text-ink/75 mb-2"><strong>Téléphone :</strong> +229 00 00 00 00</p>
+    <p class="text-ink/75 mb-6"><strong>Adresse :</strong> Cotonou, Bénin</p>
 
-    <h5 class="mt-4">Suivez-nous</h5>
-    <div class="d-flex flex-column gap-2">
-      <a href="#" class="text-decoration-none" style="color:#7a2447;">Facebook</a>
-      <a href="#" class="text-decoration-none" style="color:#7a2447;">Instagram</a>
-      <a href="#" class="text-decoration-none" style="color:#7a2447;">TikTok</a>
+    <h5 class="font-display text-lg text-forest-800 mb-4">Suivez-nous</h5>
+    <div class="flex flex-col gap-2">
+      <a href="#" class="text-plum-600 hover:text-plum-700 text-sm font-medium">Facebook</a>
+      <a href="#" class="text-plum-600 hover:text-plum-700 text-sm font-medium">Instagram</a>
+      <a href="#" class="text-plum-600 hover:text-plum-700 text-sm font-medium">TikTok</a>
     </div>
-    <p class="text-muted small mt-2">(liens à remplacer par les vrais comptes du client)</p>
+    <p class="text-ink/40 text-xs mt-3">(liens à remplacer par les vrais comptes du client)</p>
   </div>
 
-  <div class="col-md-7">
-    <form method="POST" class="row g-3">
-      <div class="col-md-6">
-        <label class="form-label">Nom complet *</label>
-        <input type="text" name="nom" class="form-control" required>
+  <div class="md:col-span-3">
+    <form method="POST" class="grid md:grid-cols-2 gap-4">
+      <div class="md:col-span-2">
+        <label class="block text-sm font-medium mb-1">Nom complet *</label>
+        <input type="text" name="nom" required
+               class="w-full rounded-lg border border-ink/15 px-3 py-2 focus:outline-none focus:ring-2 ring-gold-100">
       </div>
-      <div class="col-md-6">
-        <label class="form-label">Email *</label>
-        <input type="email" name="email" class="form-control" required>
+      <div>
+        <label class="block text-sm font-medium mb-1">Email *</label>
+        <input type="email" name="email" required
+               class="w-full rounded-lg border border-ink/15 px-3 py-2 focus:outline-none focus:ring-2 ring-gold-100">
       </div>
-      <div class="col-md-3">
-        <label class="form-label">Indicatif</label>
-        <select name="indicatif_pays" class="form-select">
-          {% for code, label in indicatifs %}
-          <option value="{{ code }}">{{ label }}</option>
-          {% endfor %}
-        </select>
+      <div class="grid grid-cols-3 gap-2">
+        <div>
+          <label class="block text-sm font-medium mb-1">Indicatif</label>
+          <select name="indicatif_pays"
+                  class="w-full rounded-lg border border-ink/15 px-3 py-2 focus:outline-none focus:ring-2 ring-gold-100">
+            {% for code, label in indicatifs %}
+            <option value="{{ code }}">{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-span-2">
+          <label class="block text-sm font-medium mb-1">Téléphone</label>
+          <input type="tel" name="telephone"
+                 class="w-full rounded-lg border border-ink/15 px-3 py-2 focus:outline-none focus:ring-2 ring-gold-100">
+        </div>
       </div>
-      <div class="col-md-9">
-        <label class="form-label">Téléphone</label>
-        <input type="tel" name="telephone" class="form-control">
-      </div>
-      <div class="col-12">
-        <label class="form-label">Motif de la demande *</label>
-        <select name="motif" class="form-select" required>
+      <div class="md:col-span-2">
+        <label class="block text-sm font-medium mb-1">Motif de la demande *</label>
+        <select name="motif" required
+                class="w-full rounded-lg border border-ink/15 px-3 py-2 focus:outline-none focus:ring-2 ring-gold-100">
           <option value="">— Choisir —</option>
           <option>Demande d'information</option>
           <option>Partenariat</option>
@@ -52,14 +63,17 @@
           <option>Autre</option>
         </select>
       </div>
-      <div class="col-12">
-        <label class="form-label">Message *</label>
-        <textarea name="message" class="form-control" rows="4" required></textarea>
+      <div class="md:col-span-2">
+        <label class="block text-sm font-medium mb-1">Message *</label>
+        <textarea name="message" rows="4" required
+                  class="w-full rounded-lg border border-ink/15 px-3 py-2 focus:outline-none focus:ring-2 ring-gold-100"></textarea>
       </div>
-      <div class="col-12">
-        <button type="submit" class="btn btn-lg" style="background:#7a2447;color:white;">Envoyer</button>
+      <div class="md:col-span-2">
+        <button type="submit" class="w-full md:w-auto px-8 py-3 rounded-full bg-plum-600 hover:bg-plum-700 text-white font-medium transition-colors">
+          Envoyer
+        </button>
       </div>
     </form>
   </div>
-</div>
+</section>
 {% endblock %}

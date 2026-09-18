@@ -20,6 +20,52 @@ INDICATIFS_PAYS = [
     ("+1", "États-Unis / Canada (+1)"),
 ]
 
+# Palette par domaine d'activité — chaque page /service/<slug> reprend ces
+# couleurs pour donner une identité propre à chaque activité de Chaïda Trust.
+ACTIVITY_THEMES = {
+    "phytotherapie-cosmetologie": {  # vert / blanc — esprit médical, naturel
+        "section_bg": "bg-green-50",
+        "heading": "text-green-800",
+        "accent_bg": "bg-green-600 hover:bg-green-700",
+        "accent_text": "text-green-700",
+        "border": "border-green-200",
+        "badge": "bg-green-100 text-green-800",
+        "ring": "ring-green-100",
+    },
+    "esthetique": {  # rose / blanc / doré
+        "section_bg": "bg-pink-50",
+        "heading": "text-pink-700",
+        "accent_bg": "bg-gradient-to-r from-pink-500 to-amber-400 hover:from-pink-600 hover:to-amber-500",
+        "accent_text": "text-pink-600",
+        "border": "border-pink-200",
+        "badge": "bg-pink-100 text-pink-700",
+        "ring": "ring-pink-100",
+    },
+    "marketing-digital": {  # bleu / orange / vert
+        "section_bg": "bg-blue-50",
+        "heading": "text-blue-800",
+        "accent_bg": "bg-orange-500 hover:bg-orange-600",
+        "accent_text": "text-blue-700",
+        "border": "border-blue-200",
+        "badge": "bg-blue-100 text-blue-800",
+        "ring": "ring-blue-100",
+    },
+}
+
+DEFAULT_THEME = {  # mode, formation, et tout nouveau domaine ajouté sans thème dédié
+    "section_bg": "bg-ivory",
+    "heading": "text-forest-800",
+    "accent_bg": "bg-plum-600 hover:bg-plum-700",
+    "accent_text": "text-plum-600",
+    "border": "border-gold-100",
+    "badge": "bg-ivory text-forest-800",
+    "ring": "ring-gold-100",
+}
+
+
+def get_activity_theme(slug):
+    return ACTIVITY_THEMES.get(slug, DEFAULT_THEME)
+
 
 def _get_or_create_client(nom, telephone, email):
     client = None
@@ -44,13 +90,15 @@ def home():
 @public_bp.route("/services")
 def services():
     activites = Activity.query.filter_by(visible=True).order_by(Activity.ordre).all()
-    return render_template("public/services.html", activites=activites)
+    themes = {a.slug: get_activity_theme(a.slug) for a in activites}
+    return render_template("public/services.html", activites=activites, themes=themes)
 
 
 @public_bp.route("/service/<slug>", methods=["GET", "POST"])
 def activity_detail(slug):
     activite = Activity.query.filter_by(slug=slug, visible=True).first_or_404()
     produits = activite.produits.filter_by(disponible=True).all()
+    theme = get_activity_theme(slug)
 
     if request.method == "POST":
         nom = request.form.get("nom", "").strip()
@@ -64,7 +112,8 @@ def activity_detail(slug):
         if not nom or not telephone:
             flash("Le nom et le téléphone sont obligatoires.", "danger")
             return render_template(
-                "public/activity.html", activite=activite, produits=produits, indicatifs=INDICATIFS_PAYS
+                "public/activity.html", activite=activite, produits=produits,
+                indicatifs=INDICATIFS_PAYS, theme=theme,
             )
 
         client = _get_or_create_client(nom, telephone, email)
@@ -85,7 +134,10 @@ def activity_detail(slug):
 
         return redirect(url_for("public.booking_confirmation", reference=reservation.reference))
 
-    return render_template("public/activity.html", activite=activite, produits=produits, indicatifs=INDICATIFS_PAYS)
+    return render_template(
+        "public/activity.html", activite=activite, produits=produits,
+        indicatifs=INDICATIFS_PAYS, theme=theme,
+    )
 
 
 @public_bp.route("/reservation/confirmation/<reference>")

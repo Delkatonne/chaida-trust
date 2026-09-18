@@ -2,25 +2,33 @@
 {% block title %}Nos activités — Chaïda Trust{% endblock %}
 
 {% block content %}
-<h1 class="mb-3 text-center">Nos activités</h1>
-<p class="text-center text-muted mb-5">Découvrez chaque domaine et réservez un programme ou un rendez-vous en quelques clics.</p>
+<section class="bg-ivory py-14">
+  <div class="max-w-6xl mx-auto px-5 text-center">
+    <h1 class="font-display text-3xl md:text-4xl text-forest-800 mb-3">Nos activités</h1>
+    <p class="text-ink/70 max-w-xl mx-auto">Découvrez chaque domaine et réservez un programme ou un rendez-vous en quelques clics.</p>
+  </div>
+</section>
 
-<div class="row g-4">
-  {% for act in activites %}
-  <div class="col-md-4">
-    <div class="card h-100 shadow-sm border-0">
+<section class="max-w-6xl mx-auto px-5 py-14">
+  <div class="grid md:grid-cols-3 gap-6">
+    {% for act in activites %}
+    {% set theme = themes[act.slug] %}
+    <div class="rounded-2xl overflow-hidden border {{ theme.border }} {{ theme.section_bg }} flex flex-col">
       {% if act.image %}
-      <img src="{{ url_for('static', filename=act.image) }}" class="card-img-top" alt="{{ act.nom }}" style="height:200px; object-fit:cover;">
+      <img src="{{ url_for('static', filename=act.image) }}" alt="{{ act.nom }}" class="w-full h-48 object-cover">
       {% endif %}
-      <div class="card-body d-flex flex-column">
-        <h5 class="card-title">{{ act.nom }}</h5>
-        <p class="card-text flex-grow-1">{{ act.description_courte }}</p>
-        <a href="{{ url_for('public.activity_detail', slug=act.slug) }}" class="btn mt-2" style="background:#7a2447;color:white;">Voir & réserver</a>
+      <div class="p-6 flex flex-col flex-grow">
+        <h5 class="font-display text-lg {{ theme.heading }} mb-2">{{ act.nom }}</h5>
+        <p class="text-sm text-ink/70 mb-5 flex-grow">{{ act.description_courte }}</p>
+        <a href="{{ url_for('public.activity_detail', slug=act.slug) }}"
+           class="inline-block text-center px-5 py-2.5 rounded-full text-white text-sm font-medium transition-colors {{ theme.accent_bg }}">
+          Voir & réserver
+        </a>
       </div>
     </div>
+    {% else %}
+    <p class="text-ink/60 text-center col-span-3">Aucune activité publiée pour l'instant.</p>
+    {% endfor %}
   </div>
-  {% else %}
-  <p class="text-muted text-center">Aucune activité publiée pour l'instant.</p>
-  {% endfor %}
-</div>
+</section>
 {% endblock %}

@@ -1,11 +1,14 @@
 {% extends "base.html" %}
 {% block title %}Demande envoyée{% endblock %}
 {% block content %}
-<div class="text-center">
-  <h1 class="mb-3" style="color:#7a2447;">✔ Votre demande a bien été envoyée</h1>
-  <p>Référence : <strong>{{ reservation.reference }}</strong></p>
-  <p>Activité concernée : <strong>{{ reservation.activite.nom }}</strong></p>
-  <p class="text-muted">Nous vous recontacterons par email ou téléphone pour confirmer votre rendez-vous.</p>
-  <a href="{{ url_for('public.home') }}" class="btn mt-3" style="background:#7a2447;color:white;">Retour à l'accueil</a>
-</div>
+<section class="max-w-xl mx-auto px-5 py-24 text-center">
+  <div class="w-16 h-16 rounded-full bg-forest-50 text-forest-700 flex items-center justify-center mx-auto mb-6 text-3xl">✔</div>
+  <h1 class="font-display text-3xl text-forest-800 mb-4">Votre demande a bien été envoyée</h1>
+  <p class="text-ink/70 mb-1">Référence : <strong>{{ reservation.reference }}</strong></p>
+  <p class="text-ink/70 mb-6">Activité concernée : <strong>{{ reservation.activite.nom }}</strong></p>
+  <p class="text-ink/60 text-sm mb-8">Nous vous recontacterons par email ou téléphone pour confirmer votre rendez-vous.</p>
+  <a href="{{ url_for('public.home') }}" class="inline-block px-8 py-3 rounded-full bg-plum-600 hover:bg-plum-700 text-white font-medium transition-colors">
+    Retour à l'accueil
+  </a>
+</section>
 {% endblock %}
