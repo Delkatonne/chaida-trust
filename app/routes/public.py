@@ -63,6 +63,21 @@ DEFAULT_THEME = {  # mode, formation, et tout nouveau domaine ajouté sans thèm
 }
 
 
+# Icône Bootstrap Icons par domaine — utilisée sur la page d'accueil.
+ACTIVITY_ICONS = {
+    "phytotherapie-cosmetologie": "bi-flower1",
+    "creation-de-mode": "bi-scissors",
+    "esthetique": "bi-stars",
+    "marketing-digital": "bi-graph-up-arrow",
+    "formation": "bi-mortarboard",
+}
+DEFAULT_ICON = "bi-star"
+
+
+def get_activity_icon(slug):
+    return ACTIVITY_ICONS.get(slug, DEFAULT_ICON)
+
+
 def get_activity_theme(slug):
     return ACTIVITY_THEMES.get(slug, DEFAULT_THEME)
 
@@ -84,7 +99,8 @@ def _get_or_create_client(nom, telephone, email):
 @public_bp.route("/")
 def home():
     activites = Activity.query.filter_by(visible=True).order_by(Activity.ordre).all()
-    return render_template("public/home.html", activites=activites)
+    icons = {a.slug: get_activity_icon(a.slug) for a in activites}
+    return render_template("public/home.html", activites=activites, icons=icons)
 
 
 @public_bp.route("/services")

@@ -2,7 +2,7 @@
 {% block title %}Chaïda Trust — Accueil{% endblock %}
 
 {% block content %}
-<section class="bg-forest text-white">
+<section class="bg-gradient-to-br from-[#7a2447] to-[#a83e6b] text-white">
   <div class="max-w-6xl mx-auto px-5 py-20 md:py-28 grid md:grid-cols-5 gap-10 items-center">
     <div class="md:col-span-3">
       <span class="inline-block text-xs font-semibold tracking-widest uppercase text-gold-500 mb-4">Bien-être · Style · Compétences</span>
@@ -19,12 +19,11 @@
         Découvrir nos activités
       </a>
     </div>
-    <div class="md:col-span-2 hidden md:block">
-      <svg viewBox="0 0 200 200" class="w-full h-auto text-gold-500/30">
-        <circle cx="100" cy="100" r="90" fill="none" stroke="currentColor" stroke-width="1.5"/>
-        <circle cx="100" cy="100" r="65" fill="none" stroke="currentColor" stroke-width="1.5"/>
-        <path d="M100 20 C130 60, 130 140, 100 180 C70 140, 70 60, 100 20Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
-      </svg>
+    <div class="md:col-span-2 hidden md:flex justify-center">
+      <!-- Emplacement logo Chaïda Trust : dépose le fichier dans app/static/img/logo-chaida-trust.png -->
+      <img src="{{ url_for('static', filename='img/logo-chaida-trust.png') }}" alt="Logo Chaïda Trust"
+           class="max-w-[220px] w-full h-auto drop-shadow-lg"
+           onerror="this.style.display='none'">
     </div>
   </div>
 </section>
@@ -64,6 +63,9 @@
         <img src="{{ url_for('static', filename=act.image) }}" alt="{{ act.nom }}" class="w-full h-44 object-cover">
         {% endif %}
         <div class="p-6 flex flex-col flex-grow">
+          <div class="w-12 h-12 rounded-full bg-ivory flex items-center justify-center mb-4">
+            <i class="bi {{ icons[act.slug] }} text-xl text-plum-600"></i>
+          </div>
           <h5 class="font-display text-lg text-forest-800 mb-2">{{ act.nom }}</h5>
           <p class="text-sm text-ink/70 mb-4 flex-grow">{{ act.description_courte }}</p>
           <a href="{{ url_for('public.activity_detail', slug=act.slug) }}"
